@@ -1,0 +1,9 @@
+#pb-stencil-wrapper {
+  position: fixed !important;
+  z-index: 999999 !important;
+}
+
+#pb-stencil-img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}

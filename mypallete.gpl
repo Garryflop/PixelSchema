@@ -1,0 +1,35 @@
+GIMP Palette
+Name: MyPalette
+#
+0 0 0	Black
+34 34 34	DarkGray
+43 45 66	DarkBlueGray
+136 136 136	Gray
+228 228 228	LightGray
+255 255 255	White
+90 48 29	Brown
+160 106 66	Skin
+255 196 140	LightSkin
+0 0 234	Blue1
+0 131 199	Blue2
+54 144 234	Blue3
+73 58 193	Blue4
+106 92 255	Blue5
+0 211 221	Cyan1
+81 233 244	Cyan2
+129 30 159	Purple1
+180 74 192	Purple2
+0 95 57	Green1
+0 117 111	Green2
+2 190 1	Green3
+148 224 68	Green4
+229 217 0	Yellow1
+255 248 184	Yellow2
+229 149 0	Orange1
+255 168 0	Orange2
+109 0 26	Red1
+190 0 57	Red2
+229 0 0	Red3
+222 16 127	Pink1
+255 56 129	Pink2
+255 167 209	Pink3

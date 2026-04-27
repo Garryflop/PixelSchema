@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PixelBattle Stencil</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0e0e12;
+      --surface: #1a1a22;
+      --border: #2e2e3e;
+      --accent: #7c6aff;
+      --accent-glow: rgba(124, 106, 255, 0.3);
+      --text: #e8e8f0;
+      --muted: #6e6e88;
+      --red: #ff4d6a;
+      --green: #4dffaa;
+    }
+
+    body {
+      width: 300px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 0;
+    }
+
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pixel-icon {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .pixel-icon span {
+      display: block;
+      border-radius: 1px;
+    }
+
+    .title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text);
+    }
+
+    .subtitle {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .field-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 8px 10px;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    input[type="text"]::placeholder {
+      color: var(--muted);
+      opacity: 0.6;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 6px var(--accent-glow);
+    }
+
+    .slider-val {
+      font-size: 11px;
+      color: var(--accent);
+      width: 34px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      flex: 1;
+      padding: 9px 0;
+      border: none;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-apply {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-apply:hover {
+      opacity: 0.9;
+    }
+
+    .btn-toggle {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-toggle.active {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .btn-reset {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      flex: 0 0 auto;
+      padding: 9px 12px;
+    }
+
+    .btn-reset:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+    }
+
+    .status {
+      font-size: 10px;
+      text-align: center;
+      padding: 4px 0;
+      border-radius: 3px;
+      transition: all 0.3s;
+    }
+
+    .status.ok {
+      color: var(--green);
+    }
+
+    .status.err {
+      color: var(--red);
+    }
+
+    .hint {
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.5;
+      padding: 8px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .hint code {
+      color: var(--accent);
+      font-size: 9px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="pixel-icon">
+    <span style="background:#7c6aff"></span>
+    <span style="background:#4dffaa"></span>
+    <span style="background:#7c6aff"></span>
+    <span style="background:#4dffaa"></span>
+    <span style="background:#ff4d6a"></span>
+    <span style="background:#4dffaa"></span>
+    <span style="background:#7c6aff"></span>
+    <span style="background:#4dffaa"></span>
+    <span style="background:#7c6aff"></span>
+  </div>
+  <div>
+    <div class="title">STENCIL</div>
+    <div class="subtitle">pixelbattle.eventvoid.dev</div>
+  </div>
+</div>
+
+<div class="body">
+
+  <div>
+    <div class="field-label">Stencil URL (PNG image)</div>
+    <input type="text" id="urlInput" placeholder="https://raw.githubusercontent.com/..." />
+  </div>
+
+  <div>
+    <div class="field-label">Opacity</div>
+    <div class="slider-row">
+      <input type="range" id="opacitySlider" min="0.05" max="1" step="0.05" value="0.5">
+      <span class="slider-val" id="opacityVal">50%</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="field-label">Scale</div>
+    <div class="slider-row">
+      <input type="range" id="scaleSlider" min="0.1" max="5" step="0.05" value="1">
+      <span class="slider-val" id="scaleVal">1.0×</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="btn-row">
+    <button class="btn-apply" id="applyBtn">▶ APPLY</button>
+    <button class="btn-toggle active" id="toggleBtn">👁 VISIBLE</button>
+    <button class="btn-reset" id="resetBtn" title="Reset position">⊕</button>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <div class="hint">
+    Drag the stencil with your mouse directly on the canvas.<br>
+    Update: replace the file on GitHub and everyone will see changes in ~30 sec.<br><br>
+    <code>raw.githubusercontent.com/USER/REPO/main/stencil.png</code>
+  </div>
+
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
